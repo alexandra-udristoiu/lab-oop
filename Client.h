@@ -13,10 +13,19 @@ class Client {
     long long cnp;
     std::string nume;
     std::string adresa;
-    ContCurent *cont;
+    ContCurent cont;
 public:
-    Client(long long cnp, std::string nume, std::string adresa, int data);
-    friend std::ostream &operator<<(std::ostream &os, const Client& c);
+    Client(long long cnp, std::string nume, std::string adresa, int data, std::string iban);
+    friend std::ostream &operator<<(std::ostream &os, const Client &c);
+    ~Client();
+    Client(const Client &c);
+    Client& operator=(const Client &c);
+    void adaugaBaniCont(double suma);
+    void scoateBaniCont(double suma);
+    std::string getNume();
+    double getSumaCont();
+    void setNume(std::string nume);
+    void setAdresa(std::string adresa);
 };
 
 
