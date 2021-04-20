@@ -10,7 +10,6 @@
 #include "Client.h"
 
 class Banca {
-    static const int zileAn = 365;
     int data;
     std::vector<Client> clienti;
     std::map<long long, int> codClienti;
@@ -31,6 +30,12 @@ public:
     void setNumeClient(long long cnp, std::string nume);
 
     void setAdresaClient(long long cnp, std::string adresa);
+
+    void depozitNou(long long cnp, int tip1, int tip2, double suma);
+
+    void afisareDepoziteClient(long long cnp);
+
+    void inchidereDepozitClient(long long cnp, int codDepozit);
 
 private:
     std::string createIban();

@@ -66,6 +66,7 @@ int main() {
                 getline(fin, nume);
                 getline(fin, nume);
                 bank.setNumeClient(cnp, nume);
+                break;
             }
             case 16:{
                 long long cnp;
@@ -74,6 +75,27 @@ int main() {
                 getline(fin, adresa);
                 getline(fin, adresa);
                 bank.setAdresaClient(cnp, adresa);
+                break;
+            }
+            case 21:{
+                long long cnp;
+                int tip1, tip2;
+                double suma;
+                fin>> cnp >> tip1 >> tip2 >> suma;
+                bank.depozitNou(cnp, tip1, tip2, suma);
+                break;
+            }
+            case 22:{
+                long long cnp;
+                fin>> cnp;
+                bank.afisareDepoziteClient(cnp);
+                break;
+            }
+            case 23:{
+                long long cnp;
+                int codDepozit;
+                fin>> cnp >> codDepozit;
+                bank.inchidereDepozitClient(cnp, codDepozit);
             }
         }
     }

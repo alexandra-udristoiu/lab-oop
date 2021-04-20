@@ -5,6 +5,7 @@
 #include <vector>
 
 Banca::Banca() {
+    //TO DO: schimbat format data
     data = 0;
 }
 
@@ -24,6 +25,9 @@ void Banca::clientNou(long long cnp, const std::string &nume, const std::string 
 
 void Banca::updateData() {
     data++;
+    for(int i = 0; i < clienti.size(); i++){
+        clienti[i].updateData(data);
+    }
 }
 
 std::string Banca::createIban() {
@@ -106,5 +110,35 @@ void Banca::setAdresaClient(long long int cnp, std::string adresa) {
     else{
         int pos = codClienti[cnp] - 1;
         clienti[pos].setAdresa(adresa);
+    }
+}
+
+void Banca::depozitNou(long long cnp, int tip1, int tip2, double suma) {
+    if(codClienti.count(cnp) == 0){
+        std::cout<<"Clientul nu exista\n";
+    }
+    else{
+        int pos = codClienti[cnp] - 1;
+        clienti[pos].depozitNou(tip1, tip2, suma, data);
+    }
+}
+
+void Banca::afisareDepoziteClient(long long int cnp) {
+    if(codClienti.count(cnp) == 0){
+        std::cout<<"Clientul nu exista\n";
+    }
+    else{
+        int pos = codClienti[cnp] - 1;
+        clienti[pos].afisareDepozite();
+    }
+}
+
+void Banca::inchidereDepozitClient(long long int cnp, int codDepozit) {
+    if(codClienti.count(cnp) == 0){
+        std::cout<<"Clientul nu exista\n";
+    }
+    else{
+        int pos = codClienti[cnp] - 1;
+        clienti[pos].inchidereDepozit(codDepozit, data);
     }
 }
