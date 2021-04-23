@@ -21,17 +21,17 @@ public:
 
     void afisareClient(long long int i);
 
-    void adaugaBaniCont(std::string iban, double suma);
+    void adaugaBaniCont(const std::string &iban, double suma);
 
-    void scoateBaniCont(std::string iban, double suma);
+    void scoateBaniCont(const std::string &iban, double suma);
 
-    void tranzactie(std::string iban, std::string ibanDest, std::string nume, double suma);
+    void tranzactie(const std::string &iban, const std::string &ibanDest, const std::string &nume, double suma);
 
-    void setNumeClient(long long cnp, std::string nume);
+    void setNumeClient(long long cnp, const std::string &nume);
 
-    void setAdresaClient(long long cnp, std::string adresa);
+    void setAdresaClient(long long cnp, const std::string &adresa);
 
-    void depozitNou(long long cnp, int tip1, int tip2, double suma);
+    void depozitNou(long long cnp, int tipDepozit, int durataDepozit, double suma);
 
     void afisareDepoziteClient(long long cnp);
 

@@ -1,8 +1,8 @@
 #include "Banca.h"
+#include "Exceptii.h"
 #include <iostream>
 #include <string>
-#include <map>
-#include <vector>
+
 
 Banca::Banca() {
     //TO DO: schimbat format data
@@ -42,103 +42,83 @@ std::string Banca::createIban() {
 
 void Banca::afisareClient(long long cnp) {
     if(codClienti.count(cnp) == 0){
-        std::cout<<"Clientul nu exista\n";
-        return;
+        throw eroare_client_inexistent();
     }
     int pos = codClienti[cnp];
     std::cout<< clienti[pos - 1];
 }
 
-void Banca::adaugaBaniCont(std::string iban, double suma) {
+void Banca::adaugaBaniCont(const std::string &iban, double suma) {
     if(ibanClienti.count(iban) == 0){
-        std::cout<<"Clientul nu exista\n";
-        return;
+        throw eroare_client_inexistent();
     }
     int pos = ibanClienti[iban] - 1;
     clienti[pos].adaugaBaniCont(suma);
 }
 
-void Banca::scoateBaniCont(std::string iban, double suma) {
+void Banca::scoateBaniCont(const std::string &iban, double suma) {
     if(ibanClienti.count(iban) == 0){
-        std::cout<<"Clientul nu exista\n";
-        return;
+        throw eroare_client_inexistent();
     }
     int pos = ibanClienti[iban] - 1;
     clienti[pos].scoateBaniCont(suma);
 }
 
-void Banca::tranzactie(std::string iban, std::string ibanDest, std::string nume, double suma) {
+void Banca::tranzactie(const std::string &iban, const std::string &ibanDest, const std::string &nume, double suma) {
     if(ibanClienti.count(iban) == 0){
-        std::cout<<"Clientul nu exista\n";
-        return;
+        throw eroare_client_inexistent();
     }
     if(ibanClienti.count(ibanDest) == 0){
-        std::cout<<"Destinatarul nu exista\n";
-        return;
+        throw eroare_destinatar();
     }
     int pos = ibanClienti[iban] - 1;
     int posDest = ibanClienti[ibanDest] - 1;
     if(nume != clienti[posDest].getNume() ){
-        std::cout<<"Datele nu sunt corecte\n";
+        throw eroare_destinatar();
     }
-    else{
-        if(suma > clienti[pos].getSumaCont() ){
-            std::cout<<"Nu sunt suficienti bani in cont\n";
-        }
-        else{
-            std::cout<<"Tranzactie efectuata cu succes\n";
-            clienti[pos].scoateBaniCont(suma);
-            clienti[posDest].adaugaBaniCont(suma);
-        }
+    if(suma > clienti[pos].getSumaCont() ){
+        throw eroare_bani_insuficienti();
     }
+    clienti[pos].scoateBaniCont(suma);
+    clienti[posDest].adaugaBaniCont(suma);
 }
 
-void Banca::setNumeClient(long long int cnp, std::string nume) {
+void Banca::setNumeClient(long long int cnp, const std::string &nume) {
     if(codClienti.count(cnp) == 0){
-        std::cout<<"Clientul nu exista\n";
+        throw eroare_client_inexistent();
     }
-    else{
-        int pos = codClienti[cnp] - 1;
-        clienti[pos].setNume(nume);
-    }
+    int pos = codClienti[cnp] - 1;
+    clienti[pos].setNume(nume);
 }
 
-void Banca::setAdresaClient(long long int cnp, std::string adresa) {
+void Banca::setAdresaClient(long long int cnp, const std::string &adresa) {
     if(codClienti.count(cnp) == 0){
-        std::cout<<"Clientul nu exista\n";
+        throw eroare_client_inexistent();
     }
-    else{
-        int pos = codClienti[cnp] - 1;
-        clienti[pos].setAdresa(adresa);
-    }
+    int pos = codClienti[cnp] - 1;
+    clienti[pos].setAdresa(adresa);
 }
 
-void Banca::depozitNou(long long cnp, int tip1, int tip2, double suma) {
+void Banca::depozitNou(long long cnp, int tipDepozit, int durataDepozit, double suma) {
     if(codClienti.count(cnp) == 0){
-        std::cout<<"Clientul nu exista\n";
+        throw eroare_client_inexistent();
     }
-    else{
-        int pos = codClienti[cnp] - 1;
-        clienti[pos].depozitNou(tip1, tip2, suma, data);
-    }
+    int pos = codClienti[cnp] - 1;
+    clienti[pos].depozitNou(tipDepozit, durataDepozit, suma, data);
 }
 
 void Banca::afisareDepoziteClient(long long int cnp) {
     if(codClienti.count(cnp) == 0){
-        std::cout<<"Clientul nu exista\n";
+        throw eroare_client_inexistent();
     }
-    else{
-        int pos = codClienti[cnp] - 1;
-        clienti[pos].afisareDepozite();
-    }
+    int pos = codClienti[cnp] - 1;
+    clienti[pos].afisareDepozite();
 }
 
 void Banca::inchidereDepozitClient(long long int cnp, int codDepozit) {
     if(codClienti.count(cnp) == 0){
-        std::cout<<"Clientul nu exista\n";
+        throw eroare_client_inexistent();
     }
-    else{
-        int pos = codClienti[cnp] - 1;
-        clienti[pos].inchidereDepozit(codDepozit, data);
-    }
+    int pos = codClienti[cnp] - 1;
+    clienti[pos].inchidereDepozit(codDepozit, data);
 }

@@ -3,13 +3,15 @@
 //
 
 #include "ContCurent.h"
+#include "Exceptii.h"
 #include <iostream>
 
 ContCurent::ContCurent() {
     suma = 0;
+    dataDeschidere = 0;
 }
 
-void ContCurent::setIban(std::string iban) {
+void ContCurent::setIban(const std::string &iban) {
     this->iban = iban;
 }
 
@@ -29,11 +31,9 @@ void ContCurent::adaugaBani(double s) {
 
 void ContCurent::scoateBani(double s) {
     if(suma < s){
-        std::cout<<"Nu exista suficienti bani in cont\n";
+        throw eroare_bani_insuficienti();
     }
-    else{
-        suma -= s;
-    }
+    suma -= s;
 }
 
 double ContCurent::getSuma() {

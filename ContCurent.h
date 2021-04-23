@@ -14,7 +14,7 @@ class ContCurent {
     std::string iban;
 public:
     ContCurent();
-    void setIban(std::string iban);
+    void setIban(const std::string &iban);
     void setData(int data);
     friend std::ostream &operator<<(std::ostream &os, const ContCurent& c);
 

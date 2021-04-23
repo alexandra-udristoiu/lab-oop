@@ -24,13 +24,14 @@ public:
     explicit Depozit(int tip, int dataDeschidere, double suma);
     virtual double scadenta() = 0;
     virtual void afisare(std::ostream &os) const = 0;
-    double getSumaFinala();
+    //double getSumaFinala();
     double inchidereInainte(int dataCurenta);
     void calculDobanda(int nrZile);
     bool updateData(int dataCurenta);
     virtual bool trebuieSters(int dataCurenta);
     virtual ~Depozit() = default;
     friend std::ostream &operator<<(std::ostream &os, const Depozit &d);
+    int getCod();
 };
 
 

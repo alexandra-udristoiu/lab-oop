@@ -19,7 +19,7 @@ class Client {
     ContCurent cont;
     std::vector< std::unique_ptr<Depozit> > depozite;
 public:
-    Client(long long cnp, std::string nume, std::string adresa, int data, std::string iban);
+    Client(long long cnp, const std::string &nume, const std::string &adresa, int data, const std::string &iban);
     friend std::ostream &operator<<(std::ostream &os, const Client &c);
     ~Client();
     Client(const Client &c);
@@ -28,9 +28,9 @@ public:
     void scoateBaniCont(double suma);
     std::string getNume();
     double getSumaCont();
-    void setNume(std::string nume);
-    void setAdresa(std::string adresa);
-    void depozitNou(int tip1, int tip2, double suma, int data);
+    void setNume(const std::string &nume);
+    void setAdresa(const std::string &adresa);
+    void depozitNou(int tipDepozit, int durataDepozit, double suma, int data);
     void updateData(int data);
     void afisareDepozite();
     void inchidereDepozit(int codDepozit, int data);

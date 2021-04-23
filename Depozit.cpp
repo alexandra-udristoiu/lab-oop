@@ -3,6 +3,7 @@
 //
 
 #include "Depozit.h"
+#include "Exceptii.h"
 #include <algorithm>
 #include <vector>
 #include <cmath>
@@ -14,10 +15,10 @@ int Depozit::nrDepozite = 0;
 
 Depozit::Depozit(int tip, int dataDeschidere, double suma) {
     if(tip < 0 || tip >= tipuriDepozite.size() ){
-        throw std::domain_error("Acest tip de depozit nu exista");
+        throw eroare_tip_depozit();
     }
     if(suma < sumaMinima){
-        throw std::domain_error("Suma depusa este prea mica");
+        throw eroare_suma_depozit();
     }
     this->dataDeschidere = dataDeschidere;
     this->suma = suma;
@@ -25,11 +26,12 @@ Depozit::Depozit(int tip, int dataDeschidere, double suma) {
     codDepozit = nrDepozite;
     dataInchidere = dataDeschidere + tipuriDepozite[tip].first;
     dobanda = tipuriDepozite[tip].second;
+    sumaDobanda = 0;
 }
 
-double Depozit::getSumaFinala() {
+/*double Depozit::getSumaFinala() {
     return suma + sumaDobanda;
-}
+}*/
 
 void Depozit::calculDobanda(int nrZile) {
     sumaDobanda = suma * dobanda / 100 * nrZile / zileAn;
@@ -68,4 +70,8 @@ bool Depozit::trebuieSters(int dataCurenta) {
 std::ostream &operator<<(std::ostream &os, const Depozit &d) {
     d.afisare(os);
     return os;
+}
+
+int Depozit::getCod() {
+    return codDepozit;
 }

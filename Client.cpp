@@ -6,10 +6,11 @@
 #include "DepozitNormal.h"
 #include "DepozitReinnoire.h"
 #include "DepozitCapitalizare.h"
+#include "Exceptii.h"
 #include <iostream>
 #include <memory>
 
-Client::Client(long long cnp, std::string nume, std::string adresa, int data, std::string iban) {
+Client::Client(long long cnp, const std::string &nume, const std::string &adresa, int data, const std::string &iban) {
     this->cnp = cnp;
     this->nume = nume;
     this->adresa = adresa;
@@ -61,32 +62,27 @@ double Client::getSumaCont() {
     return cont.getSuma();
 }
 
-void Client::setNume(std::string nume) {
+void Client::setNume(const std::string &nume) {
     this->nume = nume;
 }
 
-void Client::setAdresa(std::string adresa) {
+void Client::setAdresa(const std::string &adresa) {
     this->adresa = adresa;
 }
 
-void Client::depozitNou(int tip1, int tip2, double suma, int data) {
-    try {
-        if (tip1 == 1) {
-            depozite.push_back(std::make_unique<DepozitNormal>(tip2, data, suma));
+void Client::depozitNou(int tipDepozit, int durataDepozit, double suma, int data) {
+    if (tipDepozit == 1) {
+        depozite.push_back(std::make_unique<DepozitNormal>(durataDepozit, data, suma));
+    } else {
+        if (tipDepozit == 2) {
+            depozite.push_back(std::make_unique<DepozitReinnoire>(durataDepozit, data, suma));
         } else {
-            if (tip1 == 2) {
-                depozite.push_back(std::make_unique<DepozitReinnoire>(tip2, data, suma));
+            if (tipDepozit == 3) {
+                depozite.push_back(std::make_unique<DepozitCapitalizare>(durataDepozit, data, suma));
             } else {
-                if (tip1 == 3) {
-                    depozite.push_back(std::make_unique<DepozitCapitalizare>(tip2, data, suma));
-                } else {
-                    throw std::domain_error("Acest tip de depozit nu exista");
-                }
+                throw eroare_tip_depozit();
             }
         }
-    }
-    catch(std::domain_error &e){
-        std::cout<< e.what() <<"\n";
     }
 }
 
@@ -95,7 +91,6 @@ void Client::updateData(int data) {
         if( depozite[i]->updateData(data) ){
             double suma = depozite[i]->scadenta();
             cont.adaugaBani(suma);
-            std::cout<<"S-a sters depozitul "<< i <<" "<< nume <<"\n";
             if(depozite[i]->trebuieSters(data) ){
                 depozite.erase(depozite.begin() + i);
                 i--;
@@ -113,6 +108,12 @@ void Client::afisareDepozite() {
 }
 
 void Client::inchidereDepozit(int codDepozit, int data) {
-    //TO DO: de terminat inchiderea depozitelor
+    for(int i = 0; i < depozite.size(); i++){
+        if(depozite[i]->getCod() == codDepozit){
+            depozite[i]->inchidereInainte(data);
+            depozite.erase(depozite.begin() + i);
+            break;
+        }
+    }
 }
 
