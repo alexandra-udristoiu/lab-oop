@@ -6,6 +6,7 @@
 #define POO_TEMA_DEPOZIT_H
 #include<vector>
 #include<algorithm>
+#include<iostream>
 
 
 class Depozit {
