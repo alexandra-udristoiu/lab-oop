@@ -33,6 +33,7 @@ public:
     virtual ~Depozit() = default;
     friend std::ostream &operator<<(std::ostream &os, const Depozit &d);
     int getCod();
+    double getSumaCurenta();
 };
 
 

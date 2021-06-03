@@ -75,3 +75,7 @@ std::ostream &operator<<(std::ostream &os, const Depozit &d) {
 int Depozit::getCod() {
     return codDepozit;
 }
+
+double Depozit::getSumaCurenta() {
+    return suma;
+}

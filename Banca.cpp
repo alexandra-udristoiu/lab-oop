@@ -2,19 +2,28 @@
 #include "Exceptii.h"
 #include <iostream>
 #include <string>
+#include "rlutil.h"
+#include "templatef.cpp"
 
+template
+        void afismax<Client>(std::vector<Client> v);
+
+Banca* Banca::bank = nullptr;
 
 Banca::Banca() {
-    //TO DO: schimbat format data
     data = 0;
 }
 
 void Banca::clientNou(long long cnp, const std::string &nume, const std::string &adresa) {
     if(codClienti.count(cnp) == 1){
+        rlutil::setColor(14);
         std::cout<<"Clientul exista deja!\n";
+        rlutil::resetColor();
     }
     else{
+        rlutil::setColor(10);
         std::cout<<"Client inregistrat!\n";
+        rlutil::resetColor();
         std::string iban = createIban();
         Client clientNou(cnp, nume, adresa, data, iban);
         clienti.push_back(clientNou);
@@ -121,4 +130,13 @@ void Banca::inchidereDepozitClient(long long int cnp, int codDepozit) {
     }
     int pos = codClienti[cnp] - 1;
     clienti[pos].inchidereDepozit(codDepozit, data);
+}
+
+void Banca::afisMaxime() {
+    std::cout<<"Clientul cu suma contului maxima este:\n";
+    afismax(clienti);
+    std::cout<<"Sumele maxime din depozite:\n";
+    for(int i = 0; i < clienti.size(); i++){
+        clienti[i].sumMaxDepozit();
+    }
 }

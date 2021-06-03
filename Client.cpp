@@ -9,6 +9,11 @@
 #include "Exceptii.h"
 #include <iostream>
 #include <memory>
+#include "rlutil.h"
+#include "templatef.cpp"
+
+template
+void afismax<int>(std::vector<int> v);
 
 Client::Client(long long cnp, const std::string &nume, const std::string &adresa, int data, const std::string &iban) {
     this->cnp = cnp;
@@ -42,7 +47,7 @@ Client &Client::operator=(const Client &c) {
     nume = c.nume;
     adresa = c.adresa;
     cont = c.cont;
-    std::cout<<"operator= "<< nume <<"\n";
+    //std::cout<<"operator= "<< nume <<"\n";
     return *this;
 }
 
@@ -112,8 +117,25 @@ void Client::inchidereDepozit(int codDepozit, int data) {
         if(depozite[i]->getCod() == codDepozit){
             depozite[i]->inchidereInainte(data);
             depozite.erase(depozite.begin() + i);
+            rlutil::setColor(5);
+            std::cout<<"Depozitul "<< codDepozit << " a fost inchis\n";
+            rlutil::resetColor();
             break;
         }
     }
 }
+
+
+bool Client::operator<(Client c) {
+    return this->getSumaCont() < c.getSumaCont();
+}
+
+void Client::sumMaxDepozit() {
+    std::vector<int> s;
+    for(int i = 0; i < depozite.size(); i++){
+        s.push_back(depozite[i]->getSumaCurenta() );
+    }
+    afismax(s);
+}
+
 

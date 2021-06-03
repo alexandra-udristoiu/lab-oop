@@ -14,8 +14,16 @@ class Banca {
     std::vector<Client> clienti;
     std::map<long long, int> codClienti;
     std::map<std::string, int> ibanClienti;
-public:
     Banca();
+    static Banca* bank;
+public:
+
+    static Banca* getBank(){
+        if(bank == nullptr){
+            bank = new Banca();
+        }
+        return bank;
+    }
     void clientNou(long long cnp, const std::string &nume, const std::string &adresa);
     void updateData();
 
@@ -36,6 +44,8 @@ public:
     void afisareDepoziteClient(long long cnp);
 
     void inchidereDepozitClient(long long cnp, int codDepozit);
+
+    void afisMaxime();
 
 private:
     std::string createIban();

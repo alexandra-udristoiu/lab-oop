@@ -34,6 +34,8 @@ public:
     void updateData(int data);
     void afisareDepozite();
     void inchidereDepozit(int codDepozit, int data);
+    bool operator<(Client c);
+    void sumMaxDepozit();
 };
 
 
